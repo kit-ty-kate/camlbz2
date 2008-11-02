@@ -80,7 +80,7 @@ distclean: clean
 ifdef OCAMLDOC
 doc : doc/index.html
 doc/index.html : bz2.mli
-	mkdir -p
+	mkdir -p doc/
 	$(OCAMLDOC) -html -d doc $^ 
 else
 doc : ; $(error "you need ocamldoc to generate the documentation")
