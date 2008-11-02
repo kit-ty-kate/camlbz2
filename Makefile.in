@@ -73,6 +73,9 @@ findlib-install: all
 
 clean:
 	rm -f *.cm* *.a *.so *.o *.opt ocamlbz2 test test.opt
+distclean: clean
+	rm -rf .depend Makefile aclocal.m4 autom4te.cache/
+	rm -f config.log config.status configure
 
 ifdef OCAMLDOC
 doc : doc/index.html
