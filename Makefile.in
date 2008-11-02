@@ -67,7 +67,9 @@ normal-install: all
 
 findlib-install: all
 	-$(OCAMLFIND) remove $(NAME)
-	$(OCAMLFIND) install $(NAME) META $(INSTALLFILES)
+	$(OCAMLFIND) install \
+		-patch-version $(VERSION) \
+		$(NAME) META $(INSTALLFILES)
 
 clean:
 	rm -f *.cm* *.a *.so *.o *.opt ocamlbz2 test test.opt
