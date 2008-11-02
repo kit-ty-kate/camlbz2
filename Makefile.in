@@ -26,6 +26,8 @@ DISTSRC := bz2.{ml,mli} c_bz.c io.h \
 	  Makefile.in configure configure.in \
 	  META README LICENSE doc
 
+DESTDIR =
+
 ifndef OCAMLOPT
 all : stub lib
 else
@@ -34,6 +36,14 @@ endif
 
 ifdef OCAMLFIND
 install : findlib-install
+ifeq ($(DESTDIR),)
+DESTDIR_FLAGS =
+else
+DESTDIR_FLAGS = -destdir $(DESTDIR)
+findlib-install : install-mkdir
+install-mkdir :
+	test -d $(DESTDIR) || mkdir -p $(DESTDIR)
+endif
 else
 install : normal-install
 endif
@@ -67,7 +77,7 @@ normal-install: all
 
 findlib-install: all
 	-$(OCAMLFIND) remove $(NAME)
-	$(OCAMLFIND) install \
+	$(OCAMLFIND) install $(DESTDIR_FLAGS) \
 		-patch-version $(VERSION) \
 		$(NAME) META $(INSTALLFILES)
 
