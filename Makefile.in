@@ -17,7 +17,7 @@ BZ_PREFIX := @BZ_PREFIX@
 CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 
 NAME := gz
-VERSION := 0.5.6
+VERSION := 0.6.0
 INSTALLFILES := {gz,bz}.{cmi,cmx,mli} gz.{a,cma,cmxa} dllmlgz.so libmlgz.a
 
 DISTSRC := {gz,bz}.{ml,mli} c_{gz,bz}.c io.h \
