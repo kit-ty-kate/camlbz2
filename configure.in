@@ -2,6 +2,7 @@
 
 AC_INIT(bz2.mli)
 
+use_findlib=yes
 # check for OCaml compiler
 AC_PROG_OCAML
 AC_PROG_FINDLIB
