@@ -18,9 +18,10 @@ CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 
 NAME := camlbz2
 VERSION := 0.6.0
-INSTALLFILES := {gz,bz}.{cmi,cmx,mli} gz.{a,cma,cmxa} dllmlgz.so libmlgz.a
 
-DISTSRC := {gz,bz}.{ml,mli} c_{gz,bz}.c io.h \
+INSTALLFILES := bz2.{cmi,cmx,mli} bz2.{a,cma,cmxa} dllcamlbz2.so libcamlbz2.a
+
+DISTSRC := bz2.{ml,mli} c_bz.c io.h \
 	  aclocal.m4 install-sh \
 	  Makefile.in configure configure.in \
 	  META README LICENSE doc
@@ -51,13 +52,13 @@ bz2.cmxa : bz2.cmx
 	$(OCAMLMKLIB) -oc $(NAME) -o bz2 $^ $(CLIBS) $(CLIBSDIR)
 
 
-test : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query gz),$(INSTALLDIR))
+test : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query bz2),$(INSTALLDIR))
 test : test.ml
-	$(OCAMLC) -o $@ -dllpath $(INCDIR) -I $(INCDIR) gz.cma $^
+	$(OCAMLC) -o $@ -dllpath $(INCDIR) -I $(INCDIR) bz2.cma $^
 
-test.opt : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query gz),$(INSTALLDIR))
+test.opt : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query bz2),$(INSTALLDIR))
 test.opt : test.ml
-	$(OCAMLOPT) -o $@ -I $(INCDIR) gz.cmxa $^
+	$(OCAMLOPT) -o $@ -I $(INCDIR) bz2.cmxa $^
 
 normal-install: all
 	mkdir -p $(INSTALLDIR)
@@ -69,11 +70,11 @@ findlib-install: all
 	$(OCAMLFIND) install $(NAME) META $(INSTALLFILES)
 
 clean:
-	rm -f *.cm* *.a *.so *.o *.opt ocamlgz test test.opt
+	rm -f *.cm* *.a *.so *.o *.opt ocamlbz2 test test.opt
 
 ifdef OCAMLDOC
 doc : doc/index.html
-doc/index.html : gz.mli bz.mli
+doc/index.html : bz2.mli
 	mkdir -p
 	$(OCAMLDOC) -html -d doc $^ 
 else
