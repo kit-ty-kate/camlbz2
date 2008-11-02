@@ -16,7 +16,7 @@ CLIBSDIR := $(filter -L%,@LIBS@)
 BZ_PREFIX := @BZ_PREFIX@
 CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 
-NAME := gz
+NAME := camlbz2
 VERSION := 0.6.0
 INSTALLFILES := {gz,bz}.{cmi,cmx,mli} gz.{a,cma,cmxa} dllmlgz.so libmlgz.a
 
@@ -37,21 +37,18 @@ else
 install : normal-install
 endif
 
-stub   : dllmlgz.so libmlgz.a
-lib    : gz.cma
-libopt : gz.cmxa
+stub   : dllcamlbz2.so libcamlbz2.a
+lib    : bz2.cma
+libopt : bz2.cmxa
 
-libmlgz.a dllmlgz.so :  c_gz.o c_bz.o
-	$(OCAMLMKLIB) -oc mlgz $^ $(CLIBS) $(CLIBSDIR)
+libcamlbz2.a dllcamlbz2.so : c_bz.o
+	$(OCAMLMKLIB) -oc $(NAME) $^ $(CLIBS) $(CLIBSDIR)
 
-gz.cma : gz.cmo bz.cmo
-	$(OCAMLMKLIB) -oc mlgz -o gz $^ $(CLIBS) $(CLIBSDIR)
+bz2.cma : bz2.cmo
+	$(OCAMLMKLIB) -oc $(NAME) -o bz2 $^ $(CLIBS) $(CLIBSDIR)
 
-gz.cmxa : gz.cmx bz.cmx
-	$(OCAMLMKLIB) -oc mlgz -o gz $^ $(CLIBS) $(CLIBSDIR)
-
-top : 
-	$(OCAMLMKTOP) -o ocamlgz -I $(INSTALLDIR) gz.cma
+bz2.cmxa : bz2.cmx
+	$(OCAMLMKLIB) -oc $(NAME) -o bz2 $^ $(CLIBS) $(CLIBSDIR)
 
 
 test : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query gz),$(INSTALLDIR))
