@@ -17,7 +17,7 @@ BZ_PREFIX := @BZ_PREFIX@
 CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 
 NAME := camlbz2
-VERSION := 0.6.0
+VERSION := 0.5.99
 
 INSTALLFILES := bz2.{cmi,cmx,mli} bz2.{a,cma,cmxa} dllcamlbz2.so libcamlbz2.a
 
