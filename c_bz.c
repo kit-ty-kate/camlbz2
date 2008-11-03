@@ -1,3 +1,15 @@
+/* CamlBZ2 - OCaml bindings for libbz2 (AKA, bzip2)
+ *
+ * Copyright © 2000-2005 Olivier Andrieu    <andrieu@ijm.jussieu.fr>
+ *           © 2008      Stefano Zacchiroli <zack@upsilon.cc>
+ *
+ * CamlBZ2 is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License (with the
+ * special exception on linking described in file COPYING) as published
+ * by the Free Software Foundation; either version 2.1 of the License,
+ * or (at your option) any later version.
+ */
+
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
