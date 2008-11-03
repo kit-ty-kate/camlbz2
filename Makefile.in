@@ -19,12 +19,15 @@ CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 NAME := camlbz2
 VERSION := 0.5.99
 
-INSTALLFILES := bz2.{cmi,cmx,mli} bz2.{a,cma,cmxa} dllcamlbz2.so libcamlbz2.a
+INSTALLFILES := bz2.cmi bz2.cmx bz2.mli \
+	bz2.a bz2.cma bz2.cmxa \
+	dllcamlbz2.so libcamlbz2.a
 
-DISTSRC := bz2.{ml,mli} c_bz.c io.h \
-	  aclocal.m4 install-sh \
-	  Makefile.in configure configure.in \
-	  META README LICENSE COPYING doc
+DISTSRC := bz2.ml bz2.mli \
+	c_bz.c io.h \
+	aclocal.m4 install-sh \
+	Makefile.in configure configure.in \
+	META README LICENSE COPYING doc
 
 DESTDIR =
 
