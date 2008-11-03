@@ -32,22 +32,22 @@ static void mlbz_error(int bzerror, char *msg, value chan, int read_str)
       mlbz_readclose(chan) ;
     else
       mlbz_writeclose(chan) ;
-  }
-  switch(bzerror){
-  case BZ_PARAM_ERROR :
-    invalid_argument(msg) ; break ;
-  case BZ_MEM_ERROR : 
-    raise_out_of_memory() ; break ;
-  case BZ_DATA_ERROR :
-  case BZ_DATA_ERROR_MAGIC :
-    raise_constant(*caml_named_value("mlbz_data_exn")) ; break ;
-  case BZ_IO_ERROR :
-    raise_with_string(*caml_named_value("mlbz_io_exn"), 
-		      strerror(errno)) ; break ;
-  case BZ_UNEXPECTED_EOF :
-    raise_constant(*caml_named_value("mlbz_eof_exn")) ; break ;
-  default :
-    failwith(msg) ;
+    switch(bzerror){
+    case BZ_PARAM_ERROR :
+      invalid_argument(msg) ; break ;
+    case BZ_MEM_ERROR : 
+      raise_out_of_memory() ; break ;
+    case BZ_DATA_ERROR :
+    case BZ_DATA_ERROR_MAGIC :
+      raise_constant(*caml_named_value("mlbz_data_exn")) ; break ;
+    case BZ_IO_ERROR :
+      raise_with_string(*caml_named_value("mlbz_io_exn"), 
+			strerror(errno)) ; break ;
+    case BZ_UNEXPECTED_EOF :
+      raise_constant(*caml_named_value("mlbz_eof_exn")) ; break ;
+    default :
+      failwith(msg) ;
+    }
   }
 }
 
