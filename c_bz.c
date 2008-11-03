@@ -18,7 +18,7 @@
 #define BZ_P(a) a
 #endif 
 
-
+
 value mlbz_readclose(value chan) ;
 value mlbz_writeclose(value chan) ;
 
@@ -92,7 +92,7 @@ value mlbz_version(value unit)
 {
   return copy_string(BZ_P(bzlibVersion())) ;
 }
-
+
 /* INPUT FUNCTIONS */
 value mlbz_readopen(value small, value unused, value chan)
 {
@@ -163,7 +163,7 @@ value mlbz_readgetunused(value chan)
   return result;
 }
 
-
+
 /* OUTPUT FUNCTIONS */
 value mlbz_writeopen(value block, value chan)
 {
@@ -209,7 +209,7 @@ value mlbz_writeclose(value chan)
   return Val_unit ;
 }
 
-
+
 /* IN MEMORY COMPRESSION */
 value mlbz_compress(value block, value src, value pos, value len)
 {
