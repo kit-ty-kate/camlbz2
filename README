@@ -45,10 +45,10 @@ AUTHORS
 This library descends from "gz", a library which used to ship both
 gzip and bzip2 bindings. The authors of "gz" where:
 
-- Olivier Andrieu    <andrieu@ijm.jussieu.fr>
+- Olivier Andrieu    <oandrieu@gmail.com>
 - Nicolas George     <nicolas.george@ens.fr>
 
 CamlBZ2 is now copyright and maintained by:
 
 - Stefano Zacchiroli <zack@upsilon.cc>
-- Olivier Andrieu    <andrieu@ijm.jussieu.fr>
+- Olivier Andrieu    <oandrieu@gmail.com>
