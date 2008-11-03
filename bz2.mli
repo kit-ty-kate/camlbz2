@@ -1,7 +1,7 @@
 (** {1 Bzip2 interface} *)
 
-(** The module [Bz] provides a very basic interface to the [bzip2]
-  compression library. *)
+(** The module [Bz] provides a basic interface to the [bzip2]
+    compression library. *)
 
 (** {2 Datatypes & exceptions} *)
 
@@ -26,6 +26,7 @@ exception Unexpected_EOF
     channel). *)
 
 val version : string
+  (** Version of the underlying [bzip2] library. *)
 
 (** {2 File I/O} *)
 
