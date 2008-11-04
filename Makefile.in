@@ -17,13 +17,14 @@ BZ_PREFIX := @BZ_PREFIX@
 CPPFLAGS = $(if $(BZ_PREFIX),-D BZ_PREFIX) @CPPFLAGS@
 
 NAME := camlbz2
+SHORTNAME := bz2
 VERSION := 0.5.99
 
-INSTALLFILES := bz2.cmi bz2.cmx bz2.mli \
-	bz2.a bz2.cma bz2.cmxa \
-	dllcamlbz2.so libcamlbz2.a
+INSTALLFILES := $(SHORTNAME).cmi $(SHORTNAME).cmx $(SHORTNAME).mli \
+	$(SHORTNAME).a $(SHORTNAME).cma $(SHORTNAME).cmxa \
+	dll$(NAME).so lib$(NAME).a
 
-DISTSRC := bz2.ml bz2.mli \
+DISTSRC := $(SHORTNAME).ml $(SHORTNAME).mli \
 	c_bz.c io.h \
 	aclocal.m4 install-sh \
 	Makefile.in configure configure.in \
@@ -51,27 +52,27 @@ else
 install : normal-install
 endif
 
-stub   : dllcamlbz2.so libcamlbz2.a
-lib    : bz2.cma
-libopt : bz2.cmxa
+stub   : dll$(NAME).so lib$(NAME).a
+lib    : $(SHORTNAME).cma
+libopt : $(SHORTNAME).cmxa
 
-libcamlbz2.a dllcamlbz2.so : c_bz.o
+lib$(NAME).a dll$(NAME).so : c_bz.o
 	$(OCAMLMKLIB) -oc $(NAME) $^ $(CLIBS) $(CLIBSDIR)
 
-bz2.cma : bz2.cmo
-	$(OCAMLMKLIB) -oc $(NAME) -o bz2 $^ $(CLIBS) $(CLIBSDIR)
+$(SHORTNAME).cma : $(SHORTNAME).cmo
+	$(OCAMLMKLIB) -oc $(NAME) -o $(SHORTNAME) $^ $(CLIBS) $(CLIBSDIR)
 
-bz2.cmxa : bz2.cmx
-	$(OCAMLMKLIB) -oc $(NAME) -o bz2 $^ $(CLIBS) $(CLIBSDIR)
+$(SHORTNAME).cmxa : bz2.cmx
+	$(OCAMLMKLIB) -oc $(NAME) -o $(SHORTNAME) $^ $(CLIBS) $(CLIBSDIR)
 
 
-test : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query bz2),$(INSTALLDIR))
+test : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query $(SHORTNAME)),$(INSTALLDIR))
 test : test.ml
-	$(OCAMLC) -o $@ -dllpath $(INCDIR) -I $(INCDIR) bz2.cma $^
+	$(OCAMLC) -o $@ -dllpath $(INCDIR) -I $(INCDIR) $(SHORTNAME).cma $^
 
-test.opt : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query bz2),$(INSTALLDIR))
+test.opt : INCDIR= $(if $(OCAMLFIND),$(shell ocamlfind query $(SHORTNAME)),$(INSTALLDIR))
 test.opt : test.ml
-	$(OCAMLOPT) -o $@ -I $(INCDIR) bz2.cmxa $^
+	$(OCAMLOPT) -o $@ -I $(INCDIR) $(SHORTNAME).cmxa $^
 
 normal-install: all
 	mkdir -p $(INSTALLDIR)
@@ -79,10 +80,10 @@ normal-install: all
 	@echo "You need to put a link to the shared stub in $$($(OCAMLC) -where)/stublibs"
 
 findlib-install: all
-	-$(OCAMLFIND) remove $(NAME)
+	-$(OCAMLFIND) remove $(DESTDIR_FLAGS) $(SHORTNAME)
 	$(OCAMLFIND) install $(DESTDIR_FLAGS) \
 		-patch-version $(VERSION) -ldconf ignore \
-		bz2 META $(INSTALLFILES)
+		$(SHORTNAME) META $(INSTALLFILES)
 
 clean:
 	rm -f *.cm* *.a *.so *.o *.opt ocamlbz2 test test.opt
