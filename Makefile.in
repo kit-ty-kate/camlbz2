@@ -5,7 +5,6 @@ OCAMLLIB := @OCAMLLIB@
 OCAMLFIND := @OCAMLFIND@
 OCAMLDOC := @OCAMLDOC@
 OCAMLMKLIB := @OCAMLMKLIB@
-OCAMLMKTOP := @OCAMLMKTOP@
 
 INSTALL := @INSTALL@
 INSTALL_DATA := @INSTALL_DATA@
@@ -86,7 +85,7 @@ findlib-install: all
 		$(SHORTNAME) META $(INSTALLFILES)
 
 clean:
-	rm -f *.cm* *.a *.so *.o *.opt ocamlbz2 test test.opt
+	rm -f *.cm* *.a *.so *.o *.opt test test.opt
 distclean: clean
 	rm -rf .depend Makefile aclocal.m4 autom4te.cache/ doc/
 	rm -f config.log config.status configure
