@@ -109,7 +109,7 @@ external compress : ?block:int -> string -> int -> int -> string
   = "mlbz_compress"
 
 (** [uncompress buf pos len] uncompress a data chunk comfing from
-    [bug], [len] character long, and starting at [pos].
+    [buf], [len] character long, and starting at [pos].
 
     @param small see [Bz2.open_in] above
     @return uncompressed data chunk as string *)
