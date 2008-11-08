@@ -1,0 +1,9 @@
+2008-11-08  Stefano Zacchiroli  <zack@upsilon.cc>
+
+	* Version 0.6.0 released
+	* Changes with respect to 0.5.99:
+	  - update copyright headers
+	  - get rid of bashisms in Makefile
+	  - add docs pointing to forge entry points
+	  - fix Findlib names: now consistently "bz2"
+
