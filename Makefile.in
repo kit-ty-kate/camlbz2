@@ -27,7 +27,8 @@ DISTSRC := $(SHORTNAME).ml $(SHORTNAME).mli \
 	c_bz.c io.h \
 	aclocal.m4 install-sh \
 	Makefile.in configure configure.in \
-	META README LICENSE COPYING doc
+	META doc \
+	BUGS COPYING INSTALL LICENSE README ROADMAP
 
 DESTDIR =
 
