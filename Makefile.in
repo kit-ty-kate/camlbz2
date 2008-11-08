@@ -86,10 +86,12 @@ findlib-install: all
 		$(SHORTNAME) META $(INSTALLFILES)
 
 clean:
-	rm -f *.cm* *.a *.so *.o *.opt test test.opt
+	rm -f *.cm* *.a *.so *.o *.opt test test.opt .depend
 distclean: clean
-	rm -rf .depend Makefile aclocal.m4 autom4te.cache/ doc/
-	rm -f config.log config.status configure
+	rm -f config.log config.status Makefile
+maintainer-clean: distclean
+	rm -rf aclocal.m4 doc/
+	rm -f aclocal.m4 configure
 
 ifdef OCAMLDOC
 doc : doc/index.html
