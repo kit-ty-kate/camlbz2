@@ -1,0 +1,20 @@
+
+ROADMAP
+=======
+
+* 0.7.0
+
+- bindings for the "low-level" bzip2 (de)compression API
+
+   http://www.bzip.org/1.0.5/bzip2-manual-1.0.5.html#low-level
+
+   That API would enable to (de)compress in memory, without forcibly
+   having to (de)compress all the data at once (as currently supported
+   by Bz2.{un,}compress). Low-level API bindings are a must for
+   integration into Batteries (http://batteries.forge.ocamlcore.org).
+
+* 0.6.0
+
+- feature complete wrt the latest "GZ" release
+   (of course excluding zlib bindings, which have been removed)
+
