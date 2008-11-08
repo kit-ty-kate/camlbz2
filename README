@@ -5,30 +5,17 @@ CamlBZ2
 This is CamlBZ2, OCaml bindings for the libbz2 (AKA, bzip2)
 (de)compression library.
 
-INSTALLING
-----------
-
-* `./configure`
-* `make all` builds the bytecode and native-code libraries (where
-  available), and the stub code
-* `make install` (or `make install DESTDIR=/shome/where/else`)
-
-Options:
-
-* for configure : 
-  CPPFLAGS="-I <location of zlib header>"
-  LIBS="-L <location of zlib library>"
-
-Requirements:
-
-- OCaml >= 3.10
-- Findlib
-
 DOWNLOAD
 --------
 
-TODO
-<http://sourceforge.net/projects/ocamlplot/ocamlplot.html#gz> 
+You can download the latest version of CamlBZ2 from the OCaml forge
+(http://forge.ocamlcore.org), where CamlBZ2 is hosted. Have a look at
+the CamlBZ2 homepage for more info:
+
+  http://camlbz2.forge.ocamlcore.org
+
+or jump directly to the download section:
+http://forge.ocamlcore.org/frs/?group_id=63
 
 LICENSING
 ---------
@@ -52,3 +39,4 @@ CamlBZ2 is now copyright and maintained by:
 
 - Stefano Zacchiroli <zack@upsilon.cc>
 - Olivier Andrieu    <oandrieu@gmail.com>
+
