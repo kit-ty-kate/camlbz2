@@ -19,8 +19,8 @@ NAME := camlbz2
 SHORTNAME := bz2
 VERSION := 0.6.0
 
-INSTALLFILES := $(SHORTNAME).cmi $(SHORTNAME).cmx $(SHORTNAME).mli \
-	$(SHORTNAME).a $(SHORTNAME).cma $(SHORTNAME).cmxa \
+INSTALLFILES := \
+	$(SHORTNAME).cmi $(SHORTNAME).mli $(SHORTNAME).cma \
 	dll$(NAME).so lib$(NAME).a
 
 DISTSRC := $(SHORTNAME).ml $(SHORTNAME).mli \
@@ -35,6 +35,7 @@ DESTDIR =
 ifndef OCAMLOPT
 all : stub lib
 else
+INSTALLFILES += $(SHORTNAME).cmx $(SHORTNAME).cmxa $(SHORTNAME).a
 all : stub lib libopt
 endif
 
