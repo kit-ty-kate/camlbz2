@@ -1,3 +1,9 @@
+2009-02-18  Stefano Zacchiroli  <zack@upsilon.cc>
+
+	* Version UNRELEASE
+	* Changes with respect to 0.6.0:
+	  - add examples/ dir, with a "bunzip2" replacement example
+
 2008-11-08  Stefano Zacchiroli  <zack@upsilon.cc>
 
 	* Version 0.6.0 released
