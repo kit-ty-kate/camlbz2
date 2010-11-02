@@ -51,9 +51,8 @@ val version : string
     decompressing that is slower but uses less memory. Defaults:
     [false]
 *)
-external open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
-  in_channel 
-  = "mlbz_readopen"
+val open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
+  in_channel
 
 (** [read buf pos len] reads up to [len] characters and store them in
     the string buffer [buf], starting at position [pos].
@@ -62,17 +61,14 @@ external open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
     [len] means end of stream).
 
     @raise End_of_file if end of stream was already reached. *)
-external read : in_channel -> string -> int -> int -> int
-  = "mlbz_read"
+val read : in_channel -> string -> int -> int -> int
 
 (** If there's some data after the compressed stream that you want to
     read from the same [Pervasives] [in_channel], use
     [read_get_unused]. *)
-external read_get_unused : in_channel -> string
-  = "mlbz_readgetunused"
+val read_get_unused : in_channel -> string
 
-external close_in : in_channel -> unit
-  = "mlbz_readclose"
+val close_in : in_channel -> unit
 
 (** {3 File output} *)
 
@@ -85,16 +81,13 @@ external close_in : in_channel -> unit
     @param block block size to use for compresion. It is a value
     between 1 and 9 inclusive. 9 is the default and provides best
     compression but takes most memory. *)
-external open_out : ?block:int -> Pervasives.out_channel -> out_channel
-  = "mlbz_writeopen"
+val open_out : ?block:int -> Pervasives.out_channel -> out_channel
 
 (** [write oc buf pos len] writes [len] characters, coming from [buf]
     and starting at position [pos], to [oc] *)
-external write : out_channel -> string -> int -> int -> unit
-  = "mlbz_write"
+val write : out_channel -> string -> int -> int -> unit
 
-external close_out : out_channel -> unit
-  = "mlbz_writeclose"
+val close_out : out_channel -> unit
 
 
 (** {2 In-memory compression} *)
@@ -105,13 +98,11 @@ external close_out : out_channel -> unit
     [len] character long, and starting at [pos].
 
     @return compressed data chunk as string *)
-external compress : ?block:int -> string -> int -> int -> string
-  = "mlbz_compress"
+val compress : ?block:int -> string -> int -> int -> string
 
 (** [uncompress buf pos len] uncompress a data chunk comfing from
     [buf], [len] character long, and starting at [pos].
 
     @param small see [Bz2.open_in] above
     @return uncompressed data chunk as string *)
-external uncompress : ?small:bool -> string -> int -> int -> string
-  = "mlbz_uncompress"
+val uncompress : ?small:bool -> string -> int -> int -> string
