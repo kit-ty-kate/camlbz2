@@ -51,7 +51,7 @@ val version : string
     decompressing that is slower but uses less memory. Defaults:
     [false]
 *)
-val open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
+val open_in : ?small:bool -> ?unused:bytes -> Pervasives.in_channel ->
   in_channel
 
 (** [read buf pos len] reads up to [len] characters and store them in
@@ -61,12 +61,12 @@ val open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
     [len] means end of stream).
 
     @raise End_of_file if end of stream was already reached. *)
-val read : in_channel -> string -> int -> int -> int
+val read : in_channel -> bytes -> int -> int -> int
 
 (** If there's some data after the compressed stream that you want to
     read from the same [Pervasives] [in_channel], use
     [read_get_unused]. *)
-val read_get_unused : in_channel -> string
+val read_get_unused : in_channel -> bytes
 
 val close_in : in_channel -> unit
 
@@ -85,7 +85,7 @@ val open_out : ?block:int -> Pervasives.out_channel -> out_channel
 
 (** [write oc buf pos len] writes [len] characters, coming from [buf]
     and starting at position [pos], to [oc] *)
-val write : out_channel -> string -> int -> int -> unit
+val write : out_channel -> bytes -> int -> int -> unit
 
 val close_out : out_channel -> unit
 
@@ -98,11 +98,11 @@ val close_out : out_channel -> unit
     [len] character long, and starting at [pos].
 
     @return compressed data chunk as string *)
-val compress : ?block:int -> string -> int -> int -> string
+val compress : ?block:int -> bytes -> int -> int -> bytes
 
 (** [uncompress buf pos len] uncompress a data chunk comfing from
     [buf], [len] character long, and starting at [pos].
 
     @param small see [Bz2.open_in] above
     @return uncompressed data chunk as string *)
-val uncompress : ?small:bool -> string -> int -> int -> string
+val uncompress : ?small:bool -> bytes -> int -> int -> bytes

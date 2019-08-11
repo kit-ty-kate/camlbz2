@@ -28,14 +28,14 @@ external library_version : unit -> string
 
 let version = library_version ()
 
-external open_in : ?small:bool -> ?unused:string -> Pervasives.in_channel ->
+external open_in : ?small:bool -> ?unused:bytes -> Pervasives.in_channel ->
   in_channel 
   = "mlbz_readopen"
 
-external read : in_channel -> string -> int -> int -> int
+external read : in_channel -> bytes -> int -> int -> int
   = "mlbz_read"
 
-external read_get_unused : in_channel -> string
+external read_get_unused : in_channel -> bytes
   = "mlbz_readgetunused"
 
 external close_in : in_channel -> unit
@@ -44,15 +44,15 @@ external close_in : in_channel -> unit
 external open_out : ?block:int -> Pervasives.out_channel -> out_channel
   = "mlbz_writeopen"
 
-external write : out_channel -> string -> int -> int -> unit
+external write : out_channel -> bytes -> int -> int -> unit
   = "mlbz_write"
 
 external close_out : out_channel -> unit
   = "mlbz_writeclose"
 
 
-external compress : ?block:int -> string -> int -> int -> string
+external compress : ?block:int -> bytes -> int -> int -> bytes
   = "mlbz_compress"
 
-external uncompress : ?small:bool -> string -> int -> int -> string
+external uncompress : ?small:bool -> bytes -> int -> int -> bytes
   = "mlbz_uncompress"
