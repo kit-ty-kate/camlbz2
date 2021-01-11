@@ -1,8 +1,10 @@
-2009-02-18  Stefano Zacchiroli  <zack@upsilon.cc>
+2021-01-11  Johannes Schauer Marin Rodrigues  <josch@mister-muffin.de>
 
-	* Version UNRELEASE
+	* Version 0.6.1 released
 	* Changes with respect to 0.6.0:
 	  - add examples/ dir, with a "bunzip2" replacement example
+	  - change interface to use bytes instead of string because the latter
+	    is immutable
 
 2008-11-08  Stefano Zacchiroli  <zack@upsilon.cc>
 
