@@ -1,3 +1,9 @@
+2021-01-18  Johannes Schauer Marin Rodrigues  <josch@mister-muffin.de>
+
+	* Version 0.7.0 released
+	* No changes to the last version but bumping the version number to
+	  indicate a breaking change compared to 0.6.0
+
 2021-01-11  Johannes Schauer Marin Rodrigues  <josch@mister-muffin.de>
 
 	* Version 0.6.1 released
