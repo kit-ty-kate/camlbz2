@@ -34,7 +34,7 @@ exception Unexpected_EOF
       finishes before the logical end of stream is detected. *)
 
 (** When any of these exception is raised, the channel is
-    automatically closed (but you still have to close the Pervasives
+    automatically closed (but you still have to close the Stdlib
     channel). *)
 
 val version : string
@@ -45,13 +45,13 @@ val version : string
 (** {3 File input} *)
 
 (** [open_in ic] opens a compressed stream reading from the
-    [Pervasives] input channel [ic].
+    [Stdlib] input channel [ic].
 
     @param small when [true] requests usage of a different method for
     decompressing that is slower but uses less memory. Defaults:
     [false]
 *)
-val open_in : ?small:bool -> ?unused:bytes -> Pervasives.in_channel ->
+val open_in : ?small:bool -> ?unused:bytes -> Stdlib.in_channel ->
   in_channel
 
 (** [read buf pos len] reads up to [len] characters and store them in
@@ -64,7 +64,7 @@ val open_in : ?small:bool -> ?unused:bytes -> Pervasives.in_channel ->
 val read : in_channel -> bytes -> int -> int -> int
 
 (** If there's some data after the compressed stream that you want to
-    read from the same [Pervasives] [in_channel], use
+    read from the same [Stdlib] [in_channel], use
     [read_get_unused]. *)
 val read_get_unused : in_channel -> bytes
 
@@ -72,16 +72,16 @@ val close_in : in_channel -> unit
 
 (** {3 File output} *)
 
-(** [open_out oc] creates an [out_channel] writing to the [Pervasives]
+(** [open_out oc] creates an [out_channel] writing to the [Stdlib]
     output channel [oc]. Once the write operations are finished and
     the compressed channel is closed, it is possible to continue
-    writing on the [Pervasives] channel. However, reading back
+    writing on the [Stdlib] channel. However, reading back
     requires special care (cf. above).
 
     @param block block size to use for compresion. It is a value
     between 1 and 9 inclusive. 9 is the default and provides best
     compression but takes most memory. *)
-val open_out : ?block:int -> Pervasives.out_channel -> out_channel
+val open_out : ?block:int -> Stdlib.out_channel -> out_channel
 
 (** [write oc buf pos len] writes [len] characters, coming from [buf]
     and starting at position [pos], to [oc] *)
