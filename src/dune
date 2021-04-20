@@ -5,5 +5,4 @@
  (libraries stdlib-shims)
  (foreign_stubs
   (language c)
-  (names bz2_stubs))
-)
+  (names bz2_stubs)))

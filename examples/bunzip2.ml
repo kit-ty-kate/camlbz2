@@ -14,33 +14,34 @@
 open Printf
 
 let die_usage () =
-  printf "Usage: bunzip2 FILE.bz2\n";
+  printf "Usage: bunzip2 FILE.bz2\n" ;
   exit 2
 
-let iname, ic =
-  try
-    Sys.argv.(1), open_in Sys.argv.(1)
+let (iname, ic) =
+  try (Sys.argv.(1), open_in Sys.argv.(1))
   with Invalid_argument _ -> die_usage ()
 
 let oc =
-  if not (Filename.check_suffix iname ".bz2") then begin
-    eprintf "Error: unrecognized compressed file extension";
-    die_usage ()
-  end;
+  if not (Filename.check_suffix iname ".bz2") then (
+    eprintf "Error: unrecognized compressed file extension" ;
+    die_usage ()) ;
   open_out (Filename.chop_suffix iname ".bz2")
 
 let buflen = 8192
+
 let buf = String.create buflen
+
 let bzic = Bz2.open_in ic
+
 let _ =
   try
     while true do
       let bytes = Bz2.read bzic buf 0 buflen in
-	output oc buf 0 bytes;
-	if bytes < buflen then raise End_of_file
+      output oc buf 0 bytes ;
+      if bytes < buflen then raise End_of_file
     done
-  with End_of_file -> ();
-    Bz2.close_in bzic;
-    close_in ic;
+  with End_of_file ->
+    () ;
+    Bz2.close_in bzic ;
+    close_in ic ;
     close_out oc
-

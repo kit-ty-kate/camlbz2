@@ -18,27 +18,28 @@
 (** {2 Datatypes & exceptions} *)
 
 type in_channel
+
 type out_channel
 
-exception IO_error of string
-  (** Exception [IO_error] is raised when there is an error reading or
+(** Exception [IO_error] is raised when there is an error reading or
       writing on a compressed channel ; the string argument is the message
       reported by the OS. *)
+exception IO_error of string
 
-exception Data_error
-  (** Exception [Data_error] is raised when a data integrity error is
+(** Exception [Data_error] is raised when a data integrity error is
       detected during decompression. *)
+exception Data_error
 
-exception Unexpected_EOF
-  (** Exception [Unexpected_EOF] is raised when an [in_channel]
+(** Exception [Unexpected_EOF] is raised when an [in_channel]
       finishes before the logical end of stream is detected. *)
+exception Unexpected_EOF
 
 (** When any of these exception is raised, the channel is
     automatically closed (but you still have to close the Stdlib
     channel). *)
 
+(** Version of the underlying [bzip2] library. *)
 val version : string
-  (** Version of the underlying [bzip2] library. *)
 
 (** {2 File I/O} *)
 
@@ -51,8 +52,7 @@ val version : string
     decompressing that is slower but uses less memory. Defaults:
     [false]
 *)
-val open_in : ?small:bool -> ?unused:bytes -> Stdlib.in_channel ->
-  in_channel
+val open_in : ?small:bool -> ?unused:bytes -> Stdlib.in_channel -> in_channel
 
 (** [read buf pos len] reads up to [len] characters and store them in
     the string buffer [buf], starting at position [pos].
@@ -88,7 +88,6 @@ val open_out : ?block:int -> Stdlib.out_channel -> out_channel
 val write : out_channel -> bytes -> int -> int -> unit
 
 val close_out : out_channel -> unit
-
 
 (** {2 In-memory compression} *)
 
