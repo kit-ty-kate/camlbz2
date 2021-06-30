@@ -110,7 +110,7 @@ value mlbz_readopen(value small, value unused, value chan)
 {
   int bzerror ;
   int c_small = 0 ;
-  char *c_unused = NULL ;
+  unsigned char *c_unused = NULL ;
   int c_nunused = 0;
   FILE * c_chan ;
   BZFILE * bz_chan ;
@@ -118,7 +118,7 @@ value mlbz_readopen(value small, value unused, value chan)
   if(Is_block(small))
     c_small = Bool_val(Field(small, 0)) ;
   if(Is_block(unused)){
-    c_unused  = String_val(Field(unused, 0)) ;
+    c_unused  = Bytes_val(Field(unused, 0)) ;
     c_nunused = string_length(Field(unused, 0));
   }
   c_chan = stream_of_channel(chan, "rb") ;
@@ -131,7 +131,7 @@ value mlbz_read(value chan, value buf, value pos, value len)
 {
   int res ;
   int bzerror ;
-  char *c_buf ;
+  unsigned char *c_buf ;
   int c_pos = Int_val(pos);
   int c_len = Int_val(len);
   
@@ -140,7 +140,7 @@ value mlbz_read(value chan, value buf, value pos, value len)
   if((c_len + c_pos > string_length(buf))
      || (c_len < 0) || (c_pos < 0))
     invalid_argument("Bz.read") ;
-  c_buf = String_val(buf) + c_pos ;
+  c_buf = Bytes_val(buf) + c_pos ;
   res = BZ_P(bzRead)(&bzerror, Bzfile_val(chan), c_buf, c_len) ;
   if(bzerror == BZ_STREAM_END)
     set_eof_flag(chan) ;
@@ -171,7 +171,7 @@ value mlbz_readgetunused(value chan)
   BZ_P(bzReadGetUnused)(&bzerror, Bzfile_val(chan), &unused, &nunused) ;
   mlbz_error(bzerror, "Bz.read_get_unused: not at end of stream", chan, 1) ;
   result = alloc_string(nunused) ;
-  memcpy(String_val(result), unused, nunused) ;
+  memcpy(Bytes_val(result), unused, nunused) ;
   return result;
 }
 
@@ -195,13 +195,13 @@ value mlbz_writeopen(value block, value chan)
 value mlbz_write(value chan, value buf, value pos, value len)
 {
   int bzerror ;
-  char *c_buf ;
+  unsigned char *c_buf ;
   int c_pos = Int_val(pos) ;
   int c_len = Int_val(len) ;
   if((c_len + c_pos > string_length(buf))
      || (c_len < 0) || (c_pos < 0))
     invalid_argument("Bz.write") ;
-  c_buf = String_val(buf) + c_pos ;
+  c_buf = Bytes_val(buf) + c_pos ;
   BZ_P(bzWrite)(&bzerror, Bzfile_val(chan), c_buf, c_len) ;
   mlbz_error(bzerror, "Bz.write", chan, 0) ;
   return Val_unit;
@@ -239,7 +239,7 @@ value mlbz_compress(value block, value src, value pos, value len)
      || c_pos < 0 || c_len < 0
      || c_pos + c_len > string_length(src))
     invalid_argument("Bz.compress") ;
-  src_buf = String_val(src) + c_pos;
+  src_buf = (char *)(Bytes_val(src) + c_pos);
   dst_buf_len = c_len * 1.01 + 600 ;
   dst_buf = malloc(dst_buf_len) ;
   if(dst_buf == NULL)
@@ -264,7 +264,7 @@ value mlbz_compress(value block, value src, value pos, value len)
     }
   }
   result = alloc_string(dst_len);
-  memcpy(String_val(result), dst_buf, dst_len);
+  memcpy(Bytes_val(result), dst_buf, dst_len);
   free(dst_buf);
   return result ;
 }
@@ -284,7 +284,7 @@ value mlbz_uncompress(value small, value src, value pos, value len)
   if(c_pos < 0 || c_len < 0
      || c_pos + c_len > string_length(src))
     invalid_argument("Bz.uncompress") ;
-  src_buf = String_val(src) + c_pos;
+  src_buf = (char *)(Bytes_val(src) + c_pos);
   dst_buf_len = c_len * 2 ;
   dst_buf = malloc(dst_buf_len) ;
   if(dst_buf == NULL)
@@ -317,7 +317,7 @@ value mlbz_uncompress(value small, value src, value pos, value len)
       }
   }
   result = alloc_string(dst_len);
-  memcpy(String_val(result), dst_buf, dst_len);
+  memcpy(Bytes_val(result), dst_buf, dst_len);
   free(dst_buf);
   return result ;
 }
