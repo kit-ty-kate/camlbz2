@@ -57,42 +57,6 @@ lint:
     - dune build @fmt
     - opam clean
 
-pages:
-  image: ocaml/opam2
-  stage: build
-  only:
-    - master
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - _build
-      - ~/.opam
-      - doc/rtd/_build
-  artifacts:
-    paths:
-      - public/
-  script:
-    - sudo apt-get update
-    - sudo apt-get install -y
-        graphviz
-        pandoc
-        pkg-config
-        python3
-        python3-virtualenv
-        python3-yaml
-        texlive-latex-base
-        texlive-latex-extra
-    - opam init
-    - opam remote set-url default git://github.com/ocaml/opam-repository.git
-    - opam install . --dry-run --deps-only --locked --with-test --with-doc --yes | awk '/-> installed/{print $3}' | xargs opam depext -iy
-    - curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
-    - source $HOME/.poetry/env
-    - env --chdir=doc/rtd poetry install
-    - make doc
-    - mkdir public
-    - cp -a doc/rtd/_build/* public
-    - cp -a _build/default/_doc/_html public/api
-
 opam-debian:
   image: ocaml/opam:debian
   stage: build
