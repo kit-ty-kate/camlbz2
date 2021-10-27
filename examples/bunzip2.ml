@@ -29,7 +29,7 @@ let oc =
 
 let buflen = 8192
 
-let buf = String.create buflen
+let buf = Bytes.create buflen
 
 let bzic = Bz2.open_in ic
 
