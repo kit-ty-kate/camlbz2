@@ -1,5 +1,5 @@
 (lang dune 2.8)
-(name camlbz2)
+(name bz2)
 (version 0.7.1)
 (generate_opam_files true)
 (formatting (enabled_for ocaml dune))
@@ -12,8 +12,8 @@
 (documentation "https://irill.gitlab.io/camlbz2")
 
 (package
- (name camlbz2)
+ (name bz2)
  (synopsis "CamlBZ2 OCaml bindings for the libbz2")
  (description "This is CamlBZ2, OCaml bindings for the libbz2 (AKA, bzip2)(de)compression library.")
- (depends "stdlib-shims")
+ (depends "conf-libbz2" "stdlib-shims")
 )

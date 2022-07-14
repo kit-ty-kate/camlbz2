@@ -1,8 +1,10 @@
 (library
- (name bz2)
+ (public_name bz2)
  (synopsis
   "This is CamlBZ2, OCaml bindings for the libbz2 (AKA, bzip2) (de)compression library.")
  (libraries stdlib-shims)
+ (c_library_flags -lbz2)
  (foreign_stubs
   (language c)
+  (flags :standard -D BZ_PREFIX)
   (names bz2_stubs)))
