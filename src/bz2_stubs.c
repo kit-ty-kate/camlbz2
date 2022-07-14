@@ -46,19 +46,19 @@ static void mlbz_error(int bzerror, char *msg, value chan, int read_str)
       mlbz_writeclose(chan) ;
     switch(bzerror){
     case BZ_PARAM_ERROR :
-      invalid_argument(msg) ; break ;
+      caml_invalid_argument(msg) ; break ;
     case BZ_MEM_ERROR : 
-      raise_out_of_memory() ; break ;
+      caml_raise_out_of_memory() ; break ;
     case BZ_DATA_ERROR :
     case BZ_DATA_ERROR_MAGIC :
-      raise_constant(*caml_named_value("mlbz_data_exn")) ; break ;
+      caml_raise_constant(*caml_named_value("mlbz_data_exn")) ; break ;
     case BZ_IO_ERROR :
-      raise_with_string(*caml_named_value("mlbz_io_exn"), 
+      caml_raise_with_string(*caml_named_value("mlbz_io_exn"),
 			strerror(errno)) ; break ;
     case BZ_UNEXPECTED_EOF :
-      raise_constant(*caml_named_value("mlbz_eof_exn")) ; break ;
+      caml_raise_constant(*caml_named_value("mlbz_eof_exn")) ; break ;
     default :
-      failwith(msg) ;
+      caml_failwith(msg) ;
     }
   }
 }
@@ -71,7 +71,7 @@ static void mlbz_error(int bzerror, char *msg, value chan, int read_str)
 static value Val_twoptr(FILE * ptr1, BZFILE * ptr2)
 {
   value result;
-  result= alloc_small(3, Abstract_tag);
+  result= caml_alloc_small(3, Abstract_tag);
   Field(result, 0) = (value) ptr1 ; 
   Field(result, 1) = (value) ptr2 ; 
   Field(result, 2) = Val_false ;     /* flag for the eof state */
@@ -102,7 +102,7 @@ static FILE * stream_of_channel(value chan, const char * mode)
 
 value mlbz_version(value unit)
 {
-  return copy_string(BZ_P(bzlibVersion())) ;
+  return caml_copy_string(BZ_P(bzlibVersion())) ;
 }
 
 /* INPUT FUNCTIONS */
@@ -119,7 +119,7 @@ value mlbz_readopen(value small, value unused, value chan)
     c_small = Bool_val(Field(small, 0)) ;
   if(Is_block(unused)){
     c_unused  = Bytes_val(Field(unused, 0)) ;
-    c_nunused = string_length(Field(unused, 0));
+    c_nunused = caml_string_length(Field(unused, 0));
   }
   c_chan = stream_of_channel(chan, "rb") ;
   bz_chan = BZ_P(bzReadOpen)(&bzerror, c_chan, c_small, 0, c_unused, c_nunused) ;
@@ -136,10 +136,10 @@ value mlbz_read(value chan, value buf, value pos, value len)
   int c_len = Int_val(len);
   
   if(Bz_eof(chan))
-    raise_end_of_file() ;    
-  if((c_len + c_pos > string_length(buf))
+    caml_raise_end_of_file() ;
+  if((c_len + c_pos > caml_string_length(buf))
      || (c_len < 0) || (c_pos < 0))
-    invalid_argument("Bz.read") ;
+    caml_invalid_argument("Bz.read") ;
   c_buf = Bytes_val(buf) + c_pos ;
   res = BZ_P(bzRead)(&bzerror, Bzfile_val(chan), c_buf, c_len) ;
   if(bzerror == BZ_STREAM_END)
@@ -170,7 +170,7 @@ value mlbz_readgetunused(value chan)
   int nunused ;
   BZ_P(bzReadGetUnused)(&bzerror, Bzfile_val(chan), &unused, &nunused) ;
   mlbz_error(bzerror, "Bz.read_get_unused: not at end of stream", chan, 1) ;
-  result = alloc_string(nunused) ;
+  result = caml_alloc_string(nunused) ;
   memcpy(Bytes_val(result), unused, nunused) ;
   return result;
 }
@@ -198,9 +198,9 @@ value mlbz_write(value chan, value buf, value pos, value len)
   unsigned char *c_buf ;
   int c_pos = Int_val(pos) ;
   int c_len = Int_val(len) ;
-  if((c_len + c_pos > string_length(buf))
+  if((c_len + c_pos > caml_string_length(buf))
      || (c_len < 0) || (c_pos < 0))
-    invalid_argument("Bz.write") ;
+    caml_invalid_argument("Bz.write") ;
   c_buf = Bytes_val(buf) + c_pos ;
   BZ_P(bzWrite)(&bzerror, Bzfile_val(chan), c_buf, c_len) ;
   mlbz_error(bzerror, "Bz.write", chan, 0) ;
@@ -237,13 +237,13 @@ value mlbz_compress(value block, value src, value pos, value len)
     c_block = Int_val(Field(block, 0)) ;
   if(c_block < 1 || c_block > 9
      || c_pos < 0 || c_len < 0
-     || c_pos + c_len > string_length(src))
-    invalid_argument("Bz.compress") ;
+     || c_pos + c_len > caml_string_length(src))
+    caml_invalid_argument("Bz.compress") ;
   src_buf = (char *)(Bytes_val(src) + c_pos);
   dst_buf_len = c_len * 1.01 + 600 ;
   dst_buf = malloc(dst_buf_len) ;
   if(dst_buf == NULL)
-    raise_out_of_memory();
+    caml_raise_out_of_memory();
   while(1) {
     dst_len = dst_buf_len;
     r = BZ_P(bzBuffToBuffCompress)(dst_buf, &dst_len, src_buf, c_len, c_block, 0, 0) ;
@@ -255,15 +255,15 @@ value mlbz_compress(value block, value src, value pos, value len)
       new_buf = realloc(dst_buf, dst_buf_len);
       if(new_buf == NULL) {
 	free(dst_buf);
-	raise_out_of_memory();
+	caml_raise_out_of_memory();
       }
       dst_buf = new_buf;
     } else {
       free(dst_buf);
-      raise_out_of_memory();
+      caml_raise_out_of_memory();
     }
   }
-  result = alloc_string(dst_len);
+  result = caml_alloc_string(dst_len);
   memcpy(Bytes_val(result), dst_buf, dst_len);
   free(dst_buf);
   return result ;
@@ -282,13 +282,13 @@ value mlbz_uncompress(value small, value src, value pos, value len)
   if(Is_block(small))
     c_small = Bool_val(Field(small, 0)) ;
   if(c_pos < 0 || c_len < 0
-     || c_pos + c_len > string_length(src))
-    invalid_argument("Bz.uncompress") ;
+     || c_pos + c_len > caml_string_length(src))
+    caml_invalid_argument("Bz.uncompress") ;
   src_buf = (char *)(Bytes_val(src) + c_pos);
   dst_buf_len = c_len * 2 ;
   dst_buf = malloc(dst_buf_len) ;
   if(dst_buf == NULL)
-    raise_out_of_memory();
+    caml_raise_out_of_memory();
   while(1) {
     dst_len = dst_buf_len;
     r = BZ_P(bzBuffToBuffDecompress)(dst_buf, &dst_len, src_buf, c_len, c_small, 0) ;
@@ -302,21 +302,21 @@ value mlbz_uncompress(value small, value src, value pos, value len)
 	new_buf = realloc(dst_buf, dst_buf_len);
 	if(new_buf == NULL) {
 	  free(dst_buf);
-	  raise_out_of_memory();
+	  caml_raise_out_of_memory();
 	}
 	dst_buf = new_buf;
       } break ;
       case BZ_MEM_ERROR :
 	free(dst_buf) ;
-	raise_out_of_memory() ;
+	caml_raise_out_of_memory() ;
       case BZ_DATA_ERROR :
       case BZ_DATA_ERROR_MAGIC :
-	raise_constant(*caml_named_value("mlbz_data_exn")) ; 
+	caml_raise_constant(*caml_named_value("mlbz_data_exn")) ;
       case BZ_UNEXPECTED_EOF :
-	raise_constant(*caml_named_value("mlbz_eof_exn")) ;
+	caml_raise_constant(*caml_named_value("mlbz_eof_exn")) ;
       }
   }
-  result = alloc_string(dst_len);
+  result = caml_alloc_string(dst_len);
   memcpy(Bytes_val(result), dst_buf, dst_len);
   free(dst_buf);
   return result ;
