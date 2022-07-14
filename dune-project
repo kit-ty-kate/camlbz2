@@ -15,5 +15,5 @@
  (name camlbz2)
  (synopsis "CamlBZ2 OCaml bindings for the libbz2")
  (description "This is CamlBZ2, OCaml bindings for the libbz2 (AKA, bzip2)(de)compression library.")
- (depends "stdlib-shims")
+ (depends "conf-libbz2" "stdlib-shims")
 )
